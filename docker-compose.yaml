@@ -1,0 +1,67 @@
+
+services:
+  openldap:
+    image: osixia/openldap:latest
+    container_name: openldap
+    environment:
+      - LDAP_ORGANISATION=Example Corp
+      - LDAP_DOMAIN=corp.example.com
+      - LDAP_ADMIN_PASSWORD=kps
+      - LDAP_CONFIG_PASSWORD=kps
+      - LDAP_TLS=true
+      - LDAP_TLS_VERIFY_CLIENT=never
+      - LDAP_TLS_ENFORCE=false
+      - LDAP_TLS_CRT_FILENAME=server.crt
+      - LDAP_TLS_KEY_FILENAME=server.key
+      - LDAP_TLS_CA_CRT_FILENAME=ca.crt
+      - LDAP_TLS_CIPHER_SUITE=NORMAL
+      - LDAP_TLS_PROTOCOL_MIN=3.1
+      - LDAP_TLS_REQCERT=never
+    volumes:
+      - ./ldifs:/container/service/slapd/assets/config/bootstrap/ldif/custom
+      - ./certs/server.crt:/container/service/slapd/assets/certs/server.crt:ro
+      - ./certs/server.key:/container/service/slapd/assets/certs/server.key:ro
+      - ./certs/ca.crt:/container/service/slapd/assets/certs/ca.crt:ro
+    ports:
+      - "389:389"
+      - "636:636"
+    networks:
+      custom:
+        ipv4_address: 172.20.0.2
+    command: --copy-service
+
+  ldap-ui:
+    image: ghcr.io/ldapaccountmanager/lam:stable
+    container_name: ldap-manager
+    environment:
+      - LAM_LANG=en_US
+      - LAM_PASSWORD=kps
+      - LDAP_SERVER=ldaps://openldap:636
+      - LDAP_DOMAIN=corp.example.com
+      - LDAP_BASE_DN=dc=corp,dc=example,dc=com
+      - LDAP_ADMIN_DN=cn=admin,dc=corp,dc=example,dc=com
+      - LDAP_ADMIN_PASSWORD=kps
+      - LAM_SKIP_PRECONFIGURE=false
+      - LAM_ENABLE_SELFSERVICE=true
+      - LAM_ENABLE_PASSWORD_RESET=true
+      - TLS_REQCERT=never
+    volumes:
+      - ./certs/ca.crt:/usr/local/share/ca-certificates/ca.crt:ro
+      - ./ldap.conf:/etc/ldap/ldap.conf:ro
+    ports:
+      - "9999:80"
+    networks:
+      custom:
+        ipv4_address: 172.20.0.3
+    depends_on:
+      - openldap
+    restart: unless-stopped
+
+networks:
+  custom:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1

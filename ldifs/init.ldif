@@ -1,0 +1,157 @@
+# init.ldif
+
+# Top Level OUs
+dn: ou=Operations,dc=corp,dc=example,dc=com
+objectClass: organizationalUnit
+ou: Operations
+description: Operations Department
+
+dn: ou=Development,dc=corp,dc=example,dc=com
+objectClass: organizationalUnit
+ou: Development
+description: Development Department
+
+# Nested OUs under Operations
+dn: ou=Infrastructure,ou=Operations,dc=corp,dc=example,dc=com
+objectClass: organizationalUnit
+ou: Infrastructure
+description: Infrastructure Team
+
+dn: ou=Security,ou=Operations,dc=corp,dc=example,dc=com
+objectClass: organizationalUnit
+ou: Security
+description: Security Team
+
+# Nested OUs under Development
+dn: ou=Frontend,ou=Development,dc=corp,dc=example,dc=com
+objectClass: organizationalUnit
+ou: Frontend
+description: Frontend Development Team
+
+dn: ou=Backend,ou=Development,dc=corp,dc=example,dc=com
+objectClass: organizationalUnit
+ou: Backend
+description: Backend Development Team
+
+# Groups in Operations
+dn: cn=SysAdmins,ou=Infrastructure,ou=Operations,dc=corp,dc=example,dc=com
+objectClass: groupOfNames
+cn: SysAdmins
+description: System Administrators Group
+member: cn=John Smith,ou=Infrastructure,ou=Operations,dc=corp,dc=example,dc=com
+member: cn=Sarah Wilson,ou=Infrastructure,ou=Operations,dc=corp,dc=example,dc=com
+
+dn: cn=SecurityTeam,ou=Security,ou=Operations,dc=corp,dc=example,dc=com
+objectClass: groupOfNames
+cn: SecurityTeam
+description: Security Team Group
+member: cn=Emma Davis,ou=Security,ou=Operations,dc=corp,dc=example,dc=com
+member: cn=Michael Brown,ou=Security,ou=Operations,dc=corp,dc=example,dc=com
+
+# Groups in Development
+dn: cn=FrontendDevs,ou=Frontend,ou=Development,dc=corp,dc=example,dc=com
+objectClass: groupOfNames
+cn: FrontendDevs
+description: Frontend Developers Group
+member: cn=Lisa Chen,ou=Frontend,ou=Development,dc=corp,dc=example,dc=com
+member: cn=David Miller,ou=Frontend,ou=Development,dc=corp,dc=example,dc=com
+
+dn: cn=BackendDevs,ou=Backend,ou=Development,dc=corp,dc=example,dc=com
+objectClass: groupOfNames
+cn: BackendDevs
+description: Backend Developers Group
+member: cn=James Wilson,ou=Backend,ou=Development,dc=corp,dc=example,dc=com
+member: cn=Maria Garcia,ou=Backend,ou=Development,dc=corp,dc=example,dc=com
+
+# Users in Infrastructure
+dn: cn=John Smith,ou=Infrastructure,ou=Operations,dc=corp,dc=example,dc=com
+objectClass: inetOrgPerson
+cn: John Smith
+sn: Smith
+uid: jsmith
+title: Senior System Administrator
+mail: jsmith@corp.example.com
+userPassword: kps
+
+dn: cn=Sarah Wilson,ou=Infrastructure,ou=Operations,dc=corp,dc=example,dc=com
+objectClass: inetOrgPerson
+cn: Sarah Wilson
+sn: Wilson
+uid: swilson
+title: Network Administrator
+mail: swilson@corp.example.com
+userPassword: kps
+
+# Users in Security
+dn: cn=Emma Davis,ou=Security,ou=Operations,dc=corp,dc=example,dc=com
+objectClass: inetOrgPerson
+cn: Emma Davis
+sn: Davis
+uid: edavis
+title: Security Engineer
+mail: edavis@corp.example.com
+userPassword: kps
+
+dn: cn=Michael Brown,ou=Security,ou=Operations,dc=corp,dc=example,dc=com
+objectClass: inetOrgPerson
+cn: Michael Brown
+sn: Brown
+uid: mbrown
+title: Security Analyst
+mail: mbrown@corp.example.com
+userPassword: kps
+
+# Users in Frontend Development
+dn: cn=Lisa Chen,ou=Frontend,ou=Development,dc=corp,dc=example,dc=com
+objectClass: inetOrgPerson
+cn: Lisa Chen
+sn: Chen
+uid: lchen
+title: Senior Frontend Developer
+mail: lchen@corp.example.com
+userPassword: kps
+
+dn: cn=David Miller,ou=Frontend,ou=Development,dc=corp,dc=example,dc=com
+objectClass: inetOrgPerson
+cn: David Miller
+sn: Miller
+uid: dmiller
+title: UI/UX Developer
+mail: dmiller@corp.example.com
+userPassword: kps
+
+# Users in Backend Development
+dn: cn=James Wilson,ou=Backend,ou=Development,dc=corp,dc=example,dc=com
+objectClass: inetOrgPerson
+cn: James Wilson
+sn: Wilson
+uid: jwilson
+title: Senior Backend Developer
+mail: jwilson@corp.example.com
+userPassword: kps
+
+dn: cn=Maria Garcia,ou=Backend,ou=Development,dc=corp,dc=example,dc=com
+objectClass: inetOrgPerson
+cn: Maria Garcia
+sn: Garcia
+uid: mgarcia
+title: Database Engineer
+mail: mgarcia@corp.example.com
+userPassword: kps
+
+# Cross-functional Groups
+dn: cn=DevOpsTeam,dc=corp,dc=example,dc=com
+objectClass: groupOfNames
+cn: DevOpsTeam
+description: Cross-functional DevOps Team
+member: cn=John Smith,ou=Infrastructure,ou=Operations,dc=corp,dc=example,dc=com
+member: cn=James Wilson,ou=Backend,ou=Development,dc=corp,dc=example,dc=com
+member: cn=Sarah Wilson,ou=Infrastructure,ou=Operations,dc=corp,dc=example,dc=com
+
+dn: cn=ArchitectureTeam,dc=corp,dc=example,dc=com
+objectClass: groupOfNames
+cn: ArchitectureTeam
+description: System Architecture Team
+member: cn=Lisa Chen,ou=Frontend,ou=Development,dc=corp,dc=example,dc=com
+member: cn=James Wilson,ou=Backend,ou=Development,dc=corp,dc=example,dc=com
+member: cn=Emma Davis,ou=Security,ou=Operations,dc=corp,dc=example,dc=com
